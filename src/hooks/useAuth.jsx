@@ -1,5 +1,6 @@
 // src/hooks/useAuth.js
 import { useState } from "react";
+import { ROLES } from "../constants"; // Importa los roles desde el archivo de constantes
 
 // Este hook simula el estado de autenticación
 export const useAuth = () => {
@@ -11,7 +12,7 @@ export const useAuth = () => {
   // eslint-disable-next-line no-unused-vars
   const [auth, setAuth] = useState({
     isAuthenticated: true, // Simula que el usuario está autenticado
-    role: "admin", // Simula que el rol del usuario es "employee"
+    role: ROLES.ADMIN, // Simula que el rol del usuario es "employee"
   });
 
   return auth;

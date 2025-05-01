@@ -9,16 +9,16 @@ export const employeeRoutes = [
   {
     path: ROUTES.ADMIN_PAINTS,
     element: (
-      <ProtectedRoute roles={[ROLES.EMPLOYEE, ROLES.ADMIN]}>
-        <Layout><PaintManagement /></Layout>
-      </ProtectedRoute>
+      <ProtectedRoute roles={[ROLES.EMPLOYEE, ROLES.ADMIN]} element={<Layout><PaintManagement /></Layout>}/>
+        
+      
     ),
   },
   {
     path: ROUTES.ADMIN_CARDS,
     element: (
-      <ProtectedRoute roles={[ROLES.EMPLOYEE, ROLES.ADMIN]}>
-        <Layout><CardsManagement /></Layout>
+      <ProtectedRoute roles={[ROLES.EMPLOYEE, ROLES.ADMIN]} element={<Layout><CardsManagement /></Layout>}>
+        
       </ProtectedRoute>
     ),
   },

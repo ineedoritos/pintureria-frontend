@@ -4,7 +4,7 @@
 export const ROUTES = {
     HOME: "/",
     LOGIN: "/login",
-    REGISTER: "/register",
+    REGISTER: "/register",  
     PRODUCTS: "/products",
     PRODUCT_DETAIL: "/products/:id",
     ADMIN_PAINTS: "/admin/paints",
@@ -19,5 +19,4 @@ export const ROUTES = {
     ADMIN: "admin",
     CLIENT: "client",
   };
-  
   
