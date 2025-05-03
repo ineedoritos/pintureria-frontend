@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import useRegister from "../hooks/useRegister"; // Importamos el hook
+import { useEffect } from "react";
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -26,25 +27,32 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (formData.password !== formData.confirmPassword) {
             alert("Las contraseñas no coinciden");
             return;
         }
 
-        // Usamos el hook register para hacer la petición
-        await register(formData);
+        const { confirmPassword, ...dataToSend } = formData; // <-- El fix: excluye confirmPassword
+        console.log(confirmPassword); // Verifica que los datos sean correctos
+        await register(dataToSend);
 
-        if (success) {
-            // Aquí puedes redirigir al usuario a otra página, por ejemplo:
-            // history.push("/login");
-            alert("Registro exitoso, por favor inicia sesión");
-        }
-
-        if (error) {
-            alert(error); // Muestra el error si ocurre
-        }
+        
     };
 
+     // useEffect para mostrar el alert solo cuando el error cambie
+  useEffect(() => {
+    if (error) {   
+      alert(error);
+    }
+  }, [error]); // Solo se ejecuta cuando el error cambia
+
+  useEffect(() => {
+    if (success) {
+        alert("Registro exitoso, por favor inicia sesión");
+        // Redirigir a la página de inicio o login si es necesario
+    }
+  }, [success]); // Solo se ejecuta cuando el éxito es verdadero
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#212121] py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8 p-10 text-white shadow-lg">
@@ -55,6 +63,8 @@ const Register = () => {
                 
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     <div className="space-y-4">
+                        {/* Form Fields Here */}
+
                         <div>
                             <label htmlFor="nombre" className="block text-sm font-medium text-white mb-1">Nombre</label>
                             <input id="nombre" name="nombre" type="text" required 
@@ -102,7 +112,14 @@ const Register = () => {
                                 <option value="Cédula">Cédula</option>
                             </select>
                         </div>
-
+                        <div>
+                            <label htmlFor="numero_documento" className="block text-sm font-medium text-white mb-1">Número de Documento</label>
+                            <input id="numero_documento" name="numero_documento" type="text" required 
+                                className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" 
+                                placeholder="Ej. 12345678-9" 
+                                value={formData.numero_documento} 
+                                onChange={handleChange}/>
+                        </div>
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-white mb-1">Contraseña</label>
                             <input id="password" name="password" type="password" required 
@@ -122,11 +139,19 @@ const Register = () => {
                         </div>
                     </div>
 
+                    {/* Si hay un error, lo mostramos aquí */}
+                    {error && (
+                        <div className="text-red-500 text-center mt-4">
+                            <p>{error}</p>
+                        </div>
+                    )}
+
                     <div>
                         <button 
-                            type="submit" 
                             className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-base font-medium rounded-md text-white bg-[#27AE60] hover:bg-[#277347] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-                            disabled={loading}>
+                            disabled={loading} 
+                            onSubmit={handleSubmit}
+                        >
                             {loading ? "Cargando..." : "Crear cuenta en RegisData"}
                         </button>
                     </div>

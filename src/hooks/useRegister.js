@@ -20,13 +20,17 @@ const useRegister = () => {
       });
 
       if (!response.ok) {
+        // Si la respuesta no es OK, se trata del error del backend
         const err = await response.json();
-        throw new Error(err.message || "Error al registrar");
+        console.log("Error del backend:", err);  // Ver en la consola el error completo
+        setError(err.error || "Error al registrar");  // Usar el campo 'error' del backend o un mensaje por defecto
+        return;  // Salir de la función si el registro falla
       }
 
       setSuccess(true);
     } catch (err) {
-      setError(err.message);
+      console.log("Error al registrar:", err);  // Log del error en caso de problemas con la solicitud
+      setError(err.message || "Error inesperado al registrar");
     } finally {
       setLoading(false);
     }
