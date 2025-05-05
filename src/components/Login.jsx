@@ -1,13 +1,32 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../hooks/useAuth"; // Asegúrate de importar el hook
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(""); // Para mostrar mensajes de error
 
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+    const { login } = useAuth(); // Llama al hook useAuth
+    const [loading, setLoading] = useState(false); // Para manejar el estado de carga
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("SEXOOOO:", { email, password });
+        setError(""); // Limpiar el error previo
+        setLoading(true); // Establecer el estado de carga a true
+
+        // Llamar al login
+        const result = await login(email, password);
+
+        setLoading(false); // Cambiar el estado de carga después de la respuesta
+
+        if (result.success) {
+            console.log("Rol del usuario:", result.role); // Aquí logueamos el rol
+            navigate("/dashboard"); // Redirige al dashboard o alguna otra página
+        } else {
+            setError(result.message); // Muestra el mensaje de error si algo falla
+        }
     };
 
     return (
@@ -22,16 +41,44 @@ const Login = () => {
                     <div className="space-y-4">
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-white mb-1">Email</label>
-                            <input id="email" name="email" type="email" autoComplete="email" required className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Su Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                autoComplete="email"
+                                required
+                                className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                placeholder="Su Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
                         </div>
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-white mb-1">Contraseña</label>
-                            <input id="password" name="password" type="password" autoComplete="current-password" required className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Su contraseña" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                autoComplete="current-password"
+                                required
+                                className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                placeholder="Su contraseña"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
                         </div>
                     </div>
 
+                    {error && <p className="text-red-500 text-center">{error}</p>}
+
                     <div>
-                        <button type="submit" className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-base font-medium rounded-md text-white bg-[#27AE60] hover:bg-[#277347] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors" >Entra en RegisData</button>
+                        <button
+                            type="submit"
+                            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-base font-medium rounded-md text-white bg-[#27AE60] hover:bg-[#277347] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                            disabled={loading} // Deshabilitar el botón mientras se hace la petición
+                        >
+                            {loading ? "Cargando..." : "Entra en RegisData"}
+                        </button>
                     </div>
                 </form>
 
