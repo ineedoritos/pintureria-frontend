@@ -12,7 +12,12 @@ const Login = () => {
   const navigate = useNavigate();
   const { login, role, isAuthenticated } = useAuth(); // ✅ Usamos el contexto
 
-
+  useEffect(() => {
+    // Redirigir si ya está autenticado
+    if (isAuthenticated) {
+        navigate("/products"); 
+    }
+  }, [isAuthenticated, role, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
