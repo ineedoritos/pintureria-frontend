@@ -6,11 +6,17 @@ import ProductDetail from "../components/Product";
 import Layout from "../components/Layout";
 import ProtectedRoute from "../guards/ProtectedRoute"; // Asegúrate de importarlo
 import { ROUTES, ROLES } from "../constants"; // Importamos ROLES también
+import Sidebar from "../components/Sidebar";
 
 export const publicRoutes = [
   {
     path: ROUTES.HOME,
     element: <App />,
+  },
+
+  {
+    path: "/test",
+    element: <Sidebar />,
   },
   {
     path: ROUTES.LOGIN,
