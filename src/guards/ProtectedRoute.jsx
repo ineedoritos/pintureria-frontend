@@ -1,23 +1,26 @@
 // src/guards/ProtectedRoute.jsx
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth"; // Importa el hook de autenticación
+import { useAuth } from "../context/AuthContext"; // Asegúrate de que esta ruta es correcta
 
 const ProtectedRoute = ({ element, roles }) => {
-  // Usamos el hook `useAuth` para obtener el estado de autenticación
   const { isAuthenticated, role } = useAuth();
+  
 
-  // Si el usuario no está autenticado, lo redirigimos a la página de login
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+
+  console.log("isAuthenticated", isAuthenticated);
+  console.log("role", role);
+  
+ 
+
+  if (!isAuthenticated) { 
+    return <Navigate to="/login" replace />;
   }
 
-  // Si el usuario no tiene uno de los roles permitidos, también lo redirigimos
   if (!roles.includes(role)) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/unauthorized" replace />; // o redirige a login si prefieres
   }
 
-  // Si el usuario está autenticado y tiene el rol adecuado, muestra el componente
   return element;
 };
 

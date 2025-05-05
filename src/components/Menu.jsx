@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const Menu = () => {
     const [isAdmin, setIsAdmin] = useState();
-    setIsAdmin(true)
+    
     
     const commonItems = [
         { name: 'Pinturas', path: '/paints' },

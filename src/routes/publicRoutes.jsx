@@ -4,11 +4,12 @@ import Register from "../components/Register";
 import Products from "../components/Products";
 import ProductDetail from "../components/Product";
 import Layout from "../components/Layout";
-import { ROUTES } from "../constants"; 
+import ProtectedRoute from "../guards/ProtectedRoute"; // Asegúrate de importarlo
+import { ROUTES, ROLES } from "../constants"; // Importamos ROLES también
 
 export const publicRoutes = [
   {
-    path: ROUTES.HOME,  
+    path: ROUTES.HOME,
     element: <App />,
   },
   {
@@ -21,10 +22,28 @@ export const publicRoutes = [
   },
   {
     path: ROUTES.PRODUCTS,
-    element: <Layout><Products /></Layout>,
+    element: (
+      <ProtectedRoute
+        roles={[ROLES.CLIENT]}
+        element={
+          <Layout>
+            <Products />
+          </Layout>
+        }
+      />
+    ),
   },
   {
     path: ROUTES.PRODUCT_DETAIL,
-    element: <Layout><ProductDetail /></Layout>,
+    element: (
+      <ProtectedRoute
+        roles={[ROLES.CLIENT]}
+        element={
+          <Layout>
+            <ProductDetail />
+          </Layout>
+        }
+      />
+    ),
   },
 ];

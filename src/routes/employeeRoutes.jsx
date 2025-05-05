@@ -17,9 +17,9 @@ export const employeeRoutes = [
   {
     path: ROUTES.ADMIN_CARDS,
     element: (
-      <ProtectedRoute roles={[ROLES.EMPLOYEE, ROLES.ADMIN]} element={<Layout><CardsManagement /></Layout>}>
+      <ProtectedRoute roles={[ROLES.EMPLOYEE, ROLES.ADMIN]} element={<Layout><CardsManagement /></Layout>}/>
         
-      </ProtectedRoute>
+   
     ),
   },
 ];
