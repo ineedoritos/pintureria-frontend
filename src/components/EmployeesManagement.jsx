@@ -7,7 +7,7 @@ const EmployeesManagement = () => {
             fechaContratacion: '2020-05-15',
             telefono: '555-1234',
             email: 'axel@udb.com',
-            direccion: 'En frente de la u'
+            direccion: 'En frente de la U'
           }
         },
         { id: 2, nombre: 'Levi Gonzalez', ocupacion: 'Esclavo', 
