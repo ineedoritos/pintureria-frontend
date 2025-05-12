@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { ROLES } from "../constants";
+
 
 const Products = () => {
     const products = [
@@ -10,8 +12,11 @@ const Products = () => {
         { id: 6, name: "Lija 200", extra: "3M", price: 2.56, img: "https://dojiw2m9tvv09.cloudfront.net/79550/product/lijas0483.jpg" },
     ];
 
+    const role = sessionStorage.getItem('role');
+    const canAddProducts = [ROLES.ADMIN, ROLES.EMPLOYEE].includes(role);
+
     return (
-        <div className="container mx-auto p-10">
+        <div className="container mx-auto p-10 z-3">
             <h1 className="text-3xl font-bold mb-8">Productos</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
                 {products.map((product, index) => (
@@ -27,7 +32,14 @@ const Products = () => {
                         </div>
                     </div>
                 ))}
-                <Link to="/" className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition-colors">+ Agregar Producto</Link>
+                {canAddProducts && (
+                    <Link 
+                        to="/" 
+                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition-colors"
+                    >
+                        + Agregar Producto
+                    </Link>
+                )}
             </div>
         </div>
     );

@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { ROLES } from '../constants';
+
 
 const ProductDetail = () => {
+    const isEmployee = sessionStorage.getItem("role") === ROLES.EMPLOYEE;
+    const isAdmin = sessionStorage.getItem("role") === ROLES.ADMIN;
     const [quantity, setQuantity] = useState(1);
 
     const handleIncrease = () => {
